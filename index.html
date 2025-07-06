@@ -36,11 +36,10 @@
 
 				push();
 				translate(width / 2, height / 2);
-				translate(0, offset);          
 				scale(scaleFactor);           
 
 				rotate(2 * PI / framesPerCycle * frame);
-				translate(0, -offset);    
+				translate(0, -offset);
 
 				drawYinYang(scaleFactor * r);
 				pop();
