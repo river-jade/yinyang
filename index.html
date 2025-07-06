@@ -17,6 +17,7 @@
 			const innerRatio = 10;
 
 			function setup() {
+				pixelDensity(1);
 				const canvas = createCanvas(window.innerWidth, window.innerHeight);
 				noFill();
 		}
@@ -51,7 +52,7 @@
 				fill(0);
 				ellipse(0, -r / 4, r / 2);
 				fill(255);
-				stroke(255);
+				noStroke();
 				ellipse(0, r / 4, r / 2);
 
 				const drawInner = (sign) => {
