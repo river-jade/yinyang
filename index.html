@@ -15,25 +15,32 @@
 			const r = 400;
 			let frame = 0;
 			const innerRatio = 10;
+			const scalePerFrame = 0.98;
 
 			function setup() {
 				pixelDensity(1);
 				const canvas = createCanvas(window.innerWidth, window.innerHeight);
 				noFill();
-		}
+			}
 
 			function draw() {
 				background(255);
 
-				let scaleFactor = pow(0.98, -frame);
-				frame = scaleFactor > innerRatio ? 1 : frame + 1;
+				let scaleFactor = pow(scalePerFrame, -frame);
+
+				const framesPerCycle = -Math.log(innerRatio)/Math.log(scalePerFrame);
+
+				frame = (frame + 1) % framesPerCycle;
+
+				const offset = r / 4 * (innerRatio / (innerRatio - 1));
 
 				push();
 				translate(width / 2, height / 2);
-				const offset = r / 4 * (innerRatio / (innerRatio - 1));
 				translate(0, offset);          
 				scale(scaleFactor);           
-				translate(0, -offset);       
+
+				rotate(2 * PI / framesPerCycle * frame);
+				translate(0, -offset);    
 
 				drawYinYang(scaleFactor * r);
 				pop();
