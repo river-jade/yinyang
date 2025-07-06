@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Recursive Yin-Yang Animation</title>
+		<style>
+			body { margin: 0; background: white; }
+			canvas { display: block; margin: 0 auto; }
+		</style>
+
+	</head>
+	<body>
+		<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+		<script>
+			const r = 300;
+			let frame = 0;
+			const innerRatio = 10;
+
+			function setup() {
+				createCanvas(r * 2, r * 2);
+				noFill();
+		}
+
+			function draw() {
+				background(255);
+
+				let scaleFactor = pow(0.98, -frame);
+				frame = scaleFactor > 10 ? 1 : frame + 1;
+
+				push();
+				translate(width / 2, height / 2);
+				const offset = height / 8 * (innerRatio / (innerRatio - 1));
+				translate(0, offset);          
+				scale(scaleFactor);           
+				translate(0, -offset);       
+
+				drawYinYang(5);
+				pop();
+			}
+
+			function drawYinYang(depth) {
+				// Draw outer circle
+				stroke(0);
+				fill(0);
+				arc(0, 0, r, r, HALF_PI, 3 * HALF_PI);
+				fill(255);
+				arc(0, 0, r, r, 3 * HALF_PI, HALF_PI);
+
+				// Draw inner black and white circles
+				fill(0);
+				ellipse(0, -r / 4, r / 2);
+				fill(255);
+				stroke(255);
+				ellipse(0, r / 4, r / 2);
+
+				if (depth <= 0) {
+					return;
+				}
+
+				const drawInner = (sign) => {
+					push();
+					translate(0, sign * r / 4);
+					scale(1 / innerRatio);
+					drawYinYang(depth - 1);
+					pop()
+				}
+
+				drawInner(1);
+				drawInner(-1);
+			}
+		</script>
+	</body>
+</html>
