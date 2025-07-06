@@ -15,6 +15,9 @@
 			const r = 400;
 			let frame = 0;
 			const innerRatio = 10;
+			const maxScale = innerRatio;
+			const minDepth = 3;
+			const maxDepth = 6;
 
 			function setup() {
 				const canvas = createCanvas(window.innerWidth, window.innerHeight);
@@ -25,7 +28,7 @@
 				background(255);
 
 				let scaleFactor = pow(0.98, -frame);
-				frame = scaleFactor > 10 ? 1 : frame + 1;
+				frame = scaleFactor > innerRatio ? 1 : frame + 1;
 
 				push();
 				translate(width / 2, height / 2);
@@ -34,7 +37,8 @@
 				scale(scaleFactor);           
 				translate(0, -offset);       
 
-				drawYinYang(5);
+				const recursionDepth = constrain(floor((scaleFactor - 1) / (maxScale - 1) * (maxDepth - minDepth) + minDepth), minDepth, maxDepth);
+				drawYinYang(recursionDepth);
 				pop();
 			}
 
