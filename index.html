@@ -12,14 +12,17 @@
 	<body>
 		<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
 		<script>
-			const r = 400;
+			const maxWidth = window.innerWidth;
+			const maxHeight = window.innerHeight;
+			const r = Math.min(maxWidth, maxHeight);
+
 			let frame = 0;
 			const innerRatio = 10;
 			const scalePerFrame = 0.98;
 
 			function setup() {
 				pixelDensity(1);
-				const canvas = createCanvas(window.innerWidth, window.innerHeight);
+				const canvas = createCanvas(maxWidth, maxHeight);
 				noFill();
 			}
 
