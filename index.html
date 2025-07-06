@@ -12,12 +12,12 @@
 	<body>
 		<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
 		<script>
-			const r = 300;
+			const r = 400;
 			let frame = 0;
 			const innerRatio = 10;
 
 			function setup() {
-				createCanvas(r * 2, r * 2);
+				const canvas = createCanvas(window.innerWidth, window.innerHeight);
 				noFill();
 		}
 
@@ -29,7 +29,7 @@
 
 				push();
 				translate(width / 2, height / 2);
-				const offset = height / 8 * (innerRatio / (innerRatio - 1));
+				const offset = r / 4 * (innerRatio / (innerRatio - 1));
 				translate(0, offset);          
 				scale(scaleFactor);           
 				translate(0, -offset);       
