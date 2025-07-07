@@ -11,22 +11,36 @@
 	</head>
 	<body>
 		<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/ccapture.js@1.1.0/build/CCapture.all.min.js"></script>
+
 		<script>
-			const maxWidth = window.innerWidth;
-			const maxHeight = window.innerHeight;
+			let capturer;
+			let recording = true;
+			let canvas;
+			const duration = 3; // seconds
+			const fps = 30;
+			const totalFrames = duration * fps;
+
+			const maxWidth = Math.min(window.innerWidth, window.innerHeight);
+			const maxHeight = Math.min(window.innerWidth, window.innerHeight);
 			const r = Math.min(maxWidth, maxHeight);
 
 			let frame = 0;
 			const innerRatio = 6;
 			const scalePerFrame = 0.98;
+			capturer = new CCapture({ format: 'gif', framerate: 30, verbose:true, workersPath: '/' });
 
 			function setup() {
 				pixelDensity(1);
-				const canvas = createCanvas(maxWidth, maxHeight);
+				canvas = createCanvas(maxWidth, maxHeight);
 				noFill();
+				frameRate(30);
 			}
 
 			function draw() {
+				if (frameCount == 1) {
+					capturer.start();
+				}
 				background(255);
 
 				let scaleFactor = pow(scalePerFrame, -frame);
@@ -46,6 +60,18 @@
 
 				drawYinYang(scaleFactor * r);
 				pop();
+
+				if (recording) {
+					capturer.capture(canvas.canvas);
+				}
+
+				if (frameCount === totalFrames) {
+					noLoop(); // Stop the animation
+					recording = false;
+					capturer.stop();
+					capturer.save();
+					return;
+				}
 			}
 
 			function drawYinYang(size) {
